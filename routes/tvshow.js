@@ -11,13 +11,13 @@ router.get("/", async (request, response) => {
 
   if (genre || rating || premiere_year) {
     if (genre) {
-      filter.genre = { $in: genre.split(",") }; // { genre: { $in: genre } }
+      filter.genre = { $in: genre.split(",") };
     }
     if (rating) {
-      filter.rating = { $gt: rating }; // { rating: { $gt: rating } }
+      filter.rating = { $gt: rating };
     }
     if (premiere_year) {
-      filter.premiere_year = { $gt: premiere_year }; // { premiere_year: { $gt: release_year } }
+      filter.premiere_year = { $gt: premiere_year };
     }
   }
   const list = await tvshow.find(filter);
