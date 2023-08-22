@@ -4,30 +4,29 @@ const router = express.Router();
 // import model into router
 const tvshow = require("../models/tvshow");
 
-// list all the tvshows
+/* list all the tvshows */
 router.get("/", async (request, response) => {
-  const { genre, rating, premiere_year } = request.query;
+  const { premiere_year, genre, rating } = request.query;
   let filter = {};
-
   if (genre || rating || premiere_year) {
     if (genre) {
-      filter.genre = { $in: genre.split(",") };
+      filter.genre = { $in: genre.split(",") }; // { genre: { $in: genre } }
     }
     if (rating) {
-      filter.rating = { $gt: rating };
+      filter.rating = { $gt: rating }; // { rating: { $gt: rating } }
     }
     if (premiere_year) {
-      filter.premiere_year = { $gt: premiere_year };
+      filter.premiere_year = { $gt: premiere_year }; // { premiere_year: { $gt: release_year } }
     }
   }
   const list = await tvshow.find(filter);
-  res.send(list);
+  response.send(list);
 });
 
-// get specific tvshows by id
+/* get specific tvshow by id */
 router.get("/:id", async (request, response) => {
-  const findtvshow = await tvshow.findOne({ _id: request.params.id });
-  response.send(findtvshow);
+  const data = await tvshow.findOne({ _id: request.params.id });
+  response.send(data);
 });
 
 module.exports = router;
