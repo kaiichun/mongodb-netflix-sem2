@@ -11,16 +11,17 @@ router.get("/", async (request, response) => {
 
   if (genre || rating || premiere_year) {
     if (genre) {
-      filter.genre = genre;
+      filter.genre = { $in: genre.split(",") }; // { genre: { $in: genre } }
     }
     if (rating) {
-      filter.rating = { $gt: rating };
+      filter.rating = { $gt: rating }; // { rating: { $gt: rating } }
     }
     if (premiere_year) {
-      filter.premiere_year = { $gt: premiere_year };
+      filter.premiere_year = { $gt: premiere_year }; // { premiere_year: { $gt: release_year } }
     }
-    response.send(await tvshow.find(filter));
   }
+  const list = await tvshow.find(filter);
+  res.send(list);
 });
 
 // get specific tvshows by id
