@@ -22,7 +22,7 @@ const tvshowSchema = new Schema({
     required: true,
   },
   genre: {
-    type: [String],
+    type: [String], // Array
     required: true,
   },
   rating: {

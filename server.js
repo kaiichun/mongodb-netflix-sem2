@@ -1,11 +1,24 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 // create an instance of express
 const app = express();
 
 // middleware to handle JSON request
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// setup the cors
+const corsHandler = cors({
+  origin: "*",
+  methods: "GET,PSOT,PUT,DELETE",
+  allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 200,
+  preflightContinue: true,
+});
+
+app.use(corsHandler);
 
 // MongoDB connection
 mongoose
@@ -15,10 +28,12 @@ mongoose
 
 // routes
 const movieRouter = require("./routes/movie");
-app.use("/movies", movieRouter);
-
 const tvshowRouter = require("./routes/tvshow");
+const newreviewRouter = require("./routes/newreview");
+
+app.use("/movies", movieRouter);
 app.use("/tvshows", tvshowRouter);
+app.use("/reviews", newreviewRouter);
 
 app.get("/", (request, response) => {
   response.send(
